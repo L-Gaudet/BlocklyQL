@@ -15,3 +15,7 @@ Ensuring security is a top priority in our SQL-like language. We'll create a sys
 The ultimate goal of the project is to reduce entry barriers for database management, enable nonprogrammers to perform efficient queries in a database, and increase their ability to manage data across different user profiles.
 
 By building this Blockly-based SQL-like language, we want to create a more inclusive environment for database querying, allowing individuals from various backgrounds to harness data management capabilities without requiring extensive coding expertise.
+
+### Parsing, Interpretation, Compilation
+
+This project implements parsing by transforming statement blocks into SQL querying operations. The DSL will have to check the integrity of the order of statement blocks to ensure they obey the SQL rules and won't return an error. 
