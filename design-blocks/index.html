@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlocklyQL</title>
+    
+    <!-- Include Blockly library -->
+    <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
+    
+    <!-- Include Blockly's CSS for styling -->
+    <link href="https://unpkg.com/blockly/blocks/common.css" rel="stylesheet">
+    
+    <!-- Include your custom CSS styles, if any -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>BlocklyQL</h1>
+    
+    <!-- Blockly workspace will go here -->
+    <div id="blocklyDiv" style="height: 480px; width: 100%;"></div>
+    
+    <!-- Blockly toolbox (customize as needed) -->
+    <xml id="toolbox" style="display: none;">
+        <!-- Define your SQL-like language blocks here -->
+        <!-- Example: A SELECT block -->
+        <block type="sql_select"></block>
+        <!-- Add more blocks for other SQL constructs -->
+    </xml>
+    
+    <!-- Load Blockly workspace with your toolbox -->
+    <script>
+        // Create a workspace with the defined toolbox
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: document.getElementById('toolbox'),
+        });
+
+        // Add event handlers or custom logic as needed
+        // For example, you can listen to changes in the workspace and generate SQL code
+        workspace.addChangeListener(function(event) {
+            // Handle changes in the workspace, generate SQL, etc.
+        });
+    </script>
+</body>
+</html>
