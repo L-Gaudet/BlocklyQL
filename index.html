@@ -6,13 +6,15 @@
     <title>BlocklyQL</title>
     
     <!-- Include Blockly library -->
-    <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
+    <!-- <script src="https://unpkg.com/blockly/blockly_compressed.js"></script> -->
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="design-blocks/blocks.js"></script>
     
     <!-- Include Blockly's CSS for styling -->
-    <link href="https://unpkg.com/blockly/blocks/common.css" rel="stylesheet">
+    <!-- <link href="https://unpkg.com/blockly/blocks/common.css" rel="stylesheet"> -->
     
     <!-- Include your custom CSS styles, if any -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 <body>
     <h1>BlocklyQL</h1>
@@ -22,9 +24,8 @@
     
     <!-- Blockly toolbox (customize as needed) -->
     <xml id="toolbox" style="display: none;">
-        <!-- Define your SQL-like language blocks here -->
         <!-- Example: A SELECT block -->
-        <block type="sql_select"></block>
+        <block type="SELECT-FROM"></block>
         <!-- Add more blocks for other SQL constructs -->
     </xml>
     
