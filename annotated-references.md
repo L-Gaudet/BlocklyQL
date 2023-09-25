@@ -1,4 +1,4 @@
-# Anotated References
+# Annotated References
 
 - Used ChatGPT for boilerplate index.html file
 
