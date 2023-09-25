@@ -42,4 +42,4 @@ The comparison function will let the user choose from a drop down menu of differ
   
 ## The Database
 
-The database we will use will be help on a cloud service which can be accessed using the blockly api. The database will be composed of three premade tables, normalized to the third normal form. Each table will contain a number of attributes and some pre existing entries so that the user is able to interact with the data and create queries of their own.
+The database we will use will be hosted on a cloud service which will be connected to the blockly program using their API. The database will be composed of three premade tables, normalized to the third normal form. Each table will contain a number of attributes and some pre-existing entries so that the user is able to interact with the data and create queries of their own.
