@@ -24,20 +24,22 @@ This function takes in table name from drop down menu and returns it in order to
         def Where(attribute, comparison, target)
           return "WHERE " + attribute + " " + comparison + " " + target
 
-This funtion takes an attribute and a comparison such as LESS or MORE thanand compares it with target to filter in a query.
+This funtion takes an attribute and a comparison such as LESS or MORE than and compares it with target to filter in a query.
 
  - **ATTRIBUTE**
 
         def Attribute(name):
           return name
 
-This function will take an attribute name from a drop down menu which will then be output and used in the select or where functions
+This function will take an attribute name from a drop down menu which will then be output and used in the **SELECT** or **WHERE** functions
 
  - **COMPARISON**
 
         def comparison(type):
           return type
 
-The comparison function will let the user choose from a drop down menu of different comparison types and return the chosen type so it can be used for filtering in the where function;
+The comparison function will let the user choose from a drop down menu of different comparison types and return the chosen type so it can be used for filtering in the **WHERE** function
   
-  
+## The Database
+
+The database we will use will be help on a cloud service which can be accessed using the blockly api. The database will be composed of three premade tables, normalized to the third normal form. Each table will contain a number of attributes and some pre existing entries so that the user is able to interact with the data and create queries of their own.
