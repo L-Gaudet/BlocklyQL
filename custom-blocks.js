@@ -114,13 +114,8 @@ Blockly.JavaScript['SELECT-FROM'] = function(block) {
     var filter = Blockly.JavaScript.valueToCode(block, 'FILTER', Blockly.JavaScript.ORDER_NONE);
     
     // Ensure that the generated code is properly formatted
-    var code = 'console.log("SELECT ' + values + ' FROM ' + table;
-    if (filter) {
-        // If a filter is provided, add it to the SQL query
-        code += ' WHERE ' + filter;
-    }
+    var code = 'console.log("SELECT ' + values + ' FROM ' + table + filter + '")';
     
-    code = 'console.log("' + code + '")';
     return code;
 };
 
@@ -130,10 +125,22 @@ Blockly.JavaScript.forBlock['target'] = function(block) {
     return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+Blockly.JavaScript['attribute'] = function(block) {
+    var attribute = block.getFieldValue('ATTRIBUTE');
+    var code = attribute;
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['comparison'] = function(block) {
+    var operator = block.getFieldValue('OPERATOR');
+    var code = operator;
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
 Blockly.JavaScript['WHERE'] = function(block) {
     var attribute = Blockly.JavaScript.valueToCode(block, 'attribute', Blockly.JavaScript.ORDER_NONE);
     var comparison = Blockly.JavaScript.valueToCode(block, 'comparison', Blockly.JavaScript.ORDER_NONE);
     var target = Blockly.JavaScript.valueToCode(block, 'target', Blockly.JavaScript.ORDER_NONE);
-    var code = attribute + ' ' + comparison + ' ' + target;
+    var code = ' WHERE ' + attribute + ' ' + comparison + ' ' + target;
     return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
