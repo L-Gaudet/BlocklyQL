@@ -4,19 +4,25 @@ Blockly.Blocks['SELECT-FROM'] = {
             .appendField('SQL Query');
 
         this.appendValueInput('SELECT')
-            .setCheck('String')
+            .setCheck('var')
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField('SELECT:');
 
         this.appendValueInput('FROM')
-            .setCheck('String')
+            .setCheck('var')
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField('FROM:');
 
+        this.appendValueInput('filter:')
+            .setCheck('WHERE')
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField('optional filter:');
+
         this.setColour(160);
         this.setTooltip('Custom SQL Query Block');
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+        // this.setPreviousStatement(true, null);
+        // this.setNextStatement(true, null);
+        this.setOutput(true, "String");
     }
 };
 
@@ -45,7 +51,7 @@ Blockly.Blocks['target'] = {
             .appendField('Target:')
             .appendField(new Blockly.FieldTextInput('var'), 'VARIABLE_NAME');
 
-        this.setOutput(true, 'String'); // This block returns a String value (variable name)
+        this.setOutput(true, 'var'); // This block returns a String value (variable name)
         this.setColour(120); // You can choose a different color for your block
         this.setTooltip('Select or enter a target variable');
     }
@@ -96,7 +102,22 @@ Blockly.Blocks['WHERE'] = {
 
         this.setColour(200);
         this.setTooltip('Custom WHERE Block');
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+        this.setOutput(true, String)
+        // this.setPreviousStatement(true, null);
+        // this.setNextStatement(true, null);
     }
+};
+
+Blockly.JavaScript.forBlock['SELECT-FROM'] = function(block) {
+    var values = Blockly.JavaScript.valueToCode(block, 'SELECT', Blockly.JavaScript.ORDER_NONE);
+    var table = Blockly.JavaScript.valueToCode(block, 'FROM', Blockly.JavaScript.ORDER_NONE);
+    var filter = Blockly.JavaScript.valueToCode(block, 'filter', Blockly.JavaScript.ORDER_NONE);
+    var code = 'console.log(SELECT ' + values + ' FROM ' + table + ' ' + filter + ')'
+    return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript.forBlock['target'] = function(block) {
+    var values = block.getFieldValue('VARIABLE_NAME')
+    var code = values
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
