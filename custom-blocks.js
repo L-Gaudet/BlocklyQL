@@ -13,8 +13,8 @@ Blockly.Blocks['SELECT-FROM'] = {
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField('FROM:');
 
-        this.appendValueInput('filter:')
-            .setCheck('WHERE')
+        this.appendValueInput('FILTER')
+            .setCheck('String')
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField('optional filter:');
 
@@ -102,22 +102,38 @@ Blockly.Blocks['WHERE'] = {
 
         this.setColour(200);
         this.setTooltip('Custom WHERE Block');
-        this.setOutput(true, String)
+        this.setOutput(true, 'String')
         // this.setPreviousStatement(true, null);
         // this.setNextStatement(true, null);
     }
 };
 
-Blockly.JavaScript.forBlock['SELECT-FROM'] = function(block) {
+Blockly.JavaScript['SELECT-FROM'] = function(block) {
     var values = Blockly.JavaScript.valueToCode(block, 'SELECT', Blockly.JavaScript.ORDER_NONE);
     var table = Blockly.JavaScript.valueToCode(block, 'FROM', Blockly.JavaScript.ORDER_NONE);
-    var filter = Blockly.JavaScript.valueToCode(block, 'filter', Blockly.JavaScript.ORDER_NONE);
-    var code = 'console.log(SELECT ' + values + ' FROM ' + table + ' ' + filter + ')'
-    return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+    var filter = Blockly.JavaScript.valueToCode(block, 'FILTER', Blockly.JavaScript.ORDER_NONE);
+    
+    // Ensure that the generated code is properly formatted
+    var code = 'console.log("SELECT ' + values + ' FROM ' + table;
+    if (filter) {
+        // If a filter is provided, add it to the SQL query
+        code += ' WHERE ' + filter;
+    }
+    
+    code = 'console.log("' + code + '")';
+    return code;
 };
 
 Blockly.JavaScript.forBlock['target'] = function(block) {
     var values = block.getFieldValue('VARIABLE_NAME')
     var code = values
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['WHERE'] = function(block) {
+    var attribute = Blockly.JavaScript.valueToCode(block, 'attribute', Blockly.JavaScript.ORDER_NONE);
+    var comparison = Blockly.JavaScript.valueToCode(block, 'comparison', Blockly.JavaScript.ORDER_NONE);
+    var target = Blockly.JavaScript.valueToCode(block, 'target', Blockly.JavaScript.ORDER_NONE);
+    var code = attribute + ' ' + comparison + ' ' + target;
     return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
