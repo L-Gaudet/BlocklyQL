@@ -34,8 +34,9 @@
         </div>  
     </div>
     <div class="row button-row">
-        <button onclick="generateCode()">Generate JavaScript</button>
-        <button onclick="runCode()">Run JavaScript</button>
+        <button onclick="generateCode()">Generate SQL code</button>
+        <button onclick="runCode()">Run SQL code</button>
+        <button onclick="saveCode()">save SQL code</button>
         <!-- <button onclick="saveBlocks()">Save Blocks</button>
         <button onclick="loadBlocks()">Load Blocks</button> -->
         <input type="file" id="loadInput" style="display: none;" onchange="loadBlocksFile(event)">
@@ -66,6 +67,34 @@
             } catch (e) {
                 document.getElementById('outputDiv').innerText = 'Error: ' + e;
             }
+        }
+        function saveCode() {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+        
+            // Specify the desired file name for the SQL file
+            var fileName = 'query.sql';
+
+            // Call the function to save the SQL code to a file
+            saveSQLToFile(code, fileName);
+        }
+
+        function saveSQLToFile(sqlCode, fileName) {
+            // Create a Blob (Binary Large Object) containing the SQL code
+            var blob = new Blob([sqlCode], { type: 'text/sql' });
+
+            // Create a temporary URL for the Blob
+            var url = URL.createObjectURL(blob);
+
+            // Create a hidden anchor element for downloading the file
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = fileName; // Set the desired file name
+
+            // Trigger a click event on the anchor element to initiate the download
+            a.click();
+
+            // Release the Blob and URL resources
+            URL.revokeObjectURL(url);
         }
 
         // Add event handlers or custom logic as needed
