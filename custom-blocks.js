@@ -1,15 +1,31 @@
+Blockly.Blocks['execute'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField('Execute');
+
+        this.appendValueInput('Query')
+                .setCheck('string')
+                .setAlign(Blockly.ALIGN_RIGHT)
+                .appendField('Query:');
+
+        this.setColour(300);
+        this.setTooltip('Custom SQL Query Block');
+        this.setOutput(false, null)
+    }
+}
+
 Blockly.Blocks['SELECT-FROM'] = {
     init: function() {
         this.appendDummyInput()
             .appendField('SQL Query');
 
         this.appendValueInput('SELECT')
-            .setCheck('var')
+            .setCheck('attribute')
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField('SELECT:');
 
         this.appendValueInput('FROM')
-            .setCheck('var')
+            .setCheck('table')
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField('FROM:');
 
@@ -22,7 +38,23 @@ Blockly.Blocks['SELECT-FROM'] = {
         this.setTooltip('Custom SQL Query Block');
         // this.setPreviousStatement(true, null);
         // this.setNextStatement(true, null);
-        this.setOutput(true, "String");
+        this.setOutput(true, "string");
+    }
+};
+
+
+Blockly.Blocks['table'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField('Table:')
+            .appendField(new Blockly.FieldDropdown([
+                ['astronaut', 'astronaut']
+                // Add more attributes as needed
+            ]), 'TABLE');
+
+        this.setOutput(true, 'table'); // This block returns a String value (selected attribute)
+        this.setColour(220); // You can choose a different color for your block
+        this.setTooltip('Select an attribute');
     }
 };
 
@@ -62,13 +94,14 @@ Blockly.Blocks['attribute'] = {
         this.appendDummyInput()
             .appendField('Attribute:')
             .appendField(new Blockly.FieldDropdown([
-                ['Attribute_1', 'attribute_1'],
-                ['Attribute_2', 'attribute_2'],
-                ['Attribute_3', 'attribute_3'],
+                ['astronautID', 'astronautID'],
+                ['name', 'name'],
+                ['age', 'age'],
+                ['All', '*']
                 // Add more attributes as needed
             ]), 'ATTRIBUTE');
 
-        this.setOutput(true, 'String'); // This block returns a String value (selected attribute)
+        this.setOutput(true, 'attribute'); // This block returns a String value (selected attribute)
         this.setColour(180); // You can choose a different color for your block
         this.setTooltip('Select an attribute');
     }
@@ -108,15 +141,54 @@ Blockly.Blocks['WHERE'] = {
     }
 };
 
+Blockly.JavaScript['execute'] = function(block) {
+    var values = Blockly.JavaScript.valueToCode(block, 'Query:', Blockly.JavaScript.ORDER_ATOMIC);
+    var values = Blockly.JavaScript.valueToCode(block, 'Query', Blockly.JavaScript.ORDER_ATOMIC); // Corrected field name
+    // var values = block.getFieldValue('Query')  
+    console.log(values)
+    
+    // Ensure that the generated code is properly formatted
+    var code = `
+    var mysql = require('mysql');
+
+    var con = mysql.createConnection({
+        host: "db4free.net",
+        port: "3306",
+        user: "blocklyqluser",
+        password: "dapWum-cesqyj-pomfo9",
+        database: "blocklyql"
+    });
+
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var sql = "` + values + `"
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            console.log(result);
+            con.destroy()
+            console.log('connection ended')
+        });
+    });
+    `
+    return code;
+};
+
 Blockly.JavaScript['SELECT-FROM'] = function(block) {
     var values = Blockly.JavaScript.valueToCode(block, 'SELECT', Blockly.JavaScript.ORDER_NONE);
     var table = Blockly.JavaScript.valueToCode(block, 'FROM', Blockly.JavaScript.ORDER_NONE);
     var filter = Blockly.JavaScript.valueToCode(block, 'FILTER', Blockly.JavaScript.ORDER_NONE);
     
     // Ensure that the generated code is properly formatted
-    var code = 'console.log("SELECT ' + values + ' FROM ' + table + filter + '")';
+    var code = 'SELECT ' + values + ' FROM ' + table + filter +';'
     
-    return code;
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['table'] = function(block) {
+    var attribute = block.getFieldValue('TABLE');
+    var code = attribute;
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript.forBlock['target'] = function(block) {
