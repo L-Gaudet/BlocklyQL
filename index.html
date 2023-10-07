@@ -36,9 +36,9 @@
         </div>  
     </div>
     <div class="row button-row">
-        <button onclick="generateCode()">Generate SQL code</button>
-        <button onclick="runCode()">Run SQL code</button>
-        <button onclick="saveCode()">save SQL code</button>
+        <button onclick="generateCode()">Generate JS code</button>
+        <button onclick="runCode()">Run JS code</button>
+        <button onclick="saveCode()">save JS code</button>
         <!-- <button onclick="saveBlocks()">Save Blocks</button>
         <button onclick="loadBlocks()">Load Blocks</button> -->
         <input type="file" id="loadInput" style="display: none;" onchange="loadBlocksFile(event)">
@@ -73,16 +73,16 @@
         function saveCode() {
             var code = Blockly.JavaScript.workspaceToCode(workspace);
         
-            // Specify the desired file name for the SQL file
-            var fileName = 'query.sql';
+            // Specify the desired file name for the js file
+            var fileName = 'query.js';
 
-            // Call the function to save the SQL code to a file
+            // Call the function to save the js code to a file
             saveSQLToFile(code, fileName);
         }
 
         function saveSQLToFile(sqlCode, fileName) {
-            // Create a Blob (Binary Large Object) containing the SQL code
-            var blob = new Blob([sqlCode], { type: 'text/sql' });
+            // Create a Blob (Binary Large Object) containing the js code
+            var blob = new Blob([sqlCode], { type: 'text/js' });
 
             // Create a temporary URL for the Blob
             var url = URL.createObjectURL(blob);
