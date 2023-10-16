@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlocklyQL</title>
+    
+    <!-- Include Blockly library -->
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="custom-blocks.js"></script>
+    
+    <!-- Include Blockly's CSS for styling -->
+    <!-- <link href="https://unpkg.com/blockly/blocks/common.css" rel="stylesheet"> -->
+    
+    <!-- Include your custom CSS styles, if any -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>BlocklyQL</h1>
+    
+    <!-- Blockly workspace will go here -->
+    <div class="row">
+        <div id="blocklyDiv" class="full-width">
+            <!-- Blockly toolbox (customize as needed) -->
+            <xml id="toolbox" style="display: none;">
+                <!-- Example: A SELECT block -->
+                <block type="execute"></block>
+                <block type="SELECT-FROM"></block>
+                <block type="attribute"></block>
+                <block type="table"></block>
+                <block type="comparison"></block>
+                <block type="WHERE"></block>
+                <block type="target"></block>
+                <!-- Add more blocks for other SQL constructs -->
+            </xml>
+        </div>  
+    </div>
+    <div class="row button-row">
+        <button onclick="generateCode()">Generate JS code</button>
+        <button onclick="runCode()">Run JS code</button>
+        <button onclick="saveCode()">save JS code</button>
+        <!-- <button onclick="saveBlocks()">Save Blocks</button>
+        <button onclick="loadBlocks()">Load Blocks</button> -->
+        <input type="file" id="loadInput" style="display: none;" onchange="loadBlocksFile(event)">
+    </div>
+    <div class="row">
+        <div id="codeDiv" class="half-width"></div>
+        <div id="outputDiv" class="half-width"></div>
+    </div>
+    
+    <!-- Load Blockly workspace with your toolbox -->
+    <script>
+        // Create a workspace with the defined toolbox
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: document.getElementById('toolbox'),
+            scrollbars: true
+        });
+
+        function generateCode() {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            document.getElementById('codeDiv').innerText = code;
+        }
+
+        function runCode() {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            try {
+                var output = eval(code);
+                document.getElementById('outputDiv').innerText = output;
+            } catch (e) {
+                document.getElementById('outputDiv').innerText = 'Error: ' + e;
+            }
+        }
+        function saveCode() {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+        
+            // Specify the desired file name for the js file
+            var fileName = 'query.js';
+
+            // Call the function to save the js code to a file
+            saveSQLToFile(code, fileName);
+        }
+
+        function saveSQLToFile(sqlCode, fileName) {
+            // Create a Blob (Binary Large Object) containing the js code
+            var blob = new Blob([sqlCode], { type: 'text/js' });
+
+            // Create a temporary URL for the Blob
+            var url = URL.createObjectURL(blob);
+
+            // Create a hidden anchor element for downloading the file
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = fileName; // Set the desired file name
+
+            // Trigger a click event on the anchor element to initiate the download
+            a.click();
+
+            // Release the Blob and URL resources
+            URL.revokeObjectURL(url);
+        }
+
+        // Add event handlers or custom logic as needed
+        // For example, you can listen to changes in the workspace and generate SQL code
+        workspace.addChangeListener(function(event) {
+            // Handle changes in the workspace, generate SQL, etc.
+        });
+    </script>
+</body>
+</html>
