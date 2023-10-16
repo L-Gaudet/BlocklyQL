@@ -7,7 +7,7 @@ Once you've created a query, save the code using the save code button. This will
 
 To run the code, make sure you have the MySQL javascript package installed (use `npm install mysql`). 
 
-Then to run the program use `npm query.js`.
+Then to run the program use `node query.js`.
 
 This should connect to the server, query it, and return the results. 
 
