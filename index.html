@@ -5,25 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlocklyQL</title>
     
-    <!-- Include Blockly library -->
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-    <script src="custom-blocks.js"></script>
+    <script src="src/custom-blocks.js"></script>
     
-    <!-- Include Blockly's CSS for styling -->
-    <!-- <link href="https://unpkg.com/blockly/blocks/common.css" rel="stylesheet"> -->
-    
-    <!-- Include your custom CSS styles, if any -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="src/style.css">
 </head>
 <body>
     <h1>BlocklyQL</h1>
     
-    <!-- Blockly workspace will go here -->
     <div class="row">
         <div id="blocklyDiv" class="full-width">
-            <!-- Blockly toolbox (customize as needed) -->
             <xml id="toolbox" style="display: none;">
-                <!-- Example: A SELECT block -->
                 <block type="execute"></block>
                 <block type="SELECT-FROM"></block>
                 <block type="attribute"></block>
@@ -41,14 +33,14 @@
         <button onclick="saveCode()">save JS code</button>
         <!-- <button onclick="saveBlocks()">Save Blocks</button>
         <button onclick="loadBlocks()">Load Blocks</button> -->
-        <input type="file" id="loadInput" style="display: none;" onchange="loadBlocksFile(event)">
+        <!-- <input type="file" id="loadInput" style="display: none;" onchange="loadBlocksFile(event)"> -->
     </div>
     <div class="row">
         <div id="codeDiv" class="half-width"></div>
         <div id="outputDiv" class="half-width"></div>
     </div>
     
-    <!-- Load Blockly workspace with your toolbox -->
+    <!-- Load Blockly workspace with the toolbox -->
     <script>
         // Create a workspace with the defined toolbox
         var workspace = Blockly.inject('blocklyDiv', {
@@ -99,8 +91,6 @@
             URL.revokeObjectURL(url);
         }
 
-        // Add event handlers or custom logic as needed
-        // For example, you can listen to changes in the workspace and generate SQL code
         workspace.addChangeListener(function(event) {
             // Handle changes in the workspace, generate SQL, etc.
         });
