@@ -216,3 +216,22 @@ Blockly.JavaScript['WHERE'] = function(block) {
     var code = ' WHERE ' + attribute + ' ' + comparison + ' ' + target;
     return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
+
+Blockly.Blocks['AGGREGATE'] = {
+        init: function() {
+        this.appendValueInput('AGGREGATE')
+            .appendField('AGG')
+            .appendField(new Blockly.FieldDropdown([
+                ['\u0020',''],
+                ['MIN', 'MIN'],
+                ['MAX', 'MAX'],
+                ['AVG', 'AVG'],
+                ['COUNT', 'COUNT'],
+                ['SUM', 'SUM']]), 'AGG')
+            .setCheck(['Number', 'var', 'exp']);
+        this.setInputsInline(true);
+        this.setOutput(true, 'var');
+        this.setColour('#A0C4FF');
+        this.setTooltip('Pick an Aggregate');
+        }
+    };
